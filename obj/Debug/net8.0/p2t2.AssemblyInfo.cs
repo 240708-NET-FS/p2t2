@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("p2t2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c390fa74becb54e7cfb350085cca44b516e214ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e9006ae6fc5da84a02b933a2708d81ee27f4ce6")]
 [assembly: System.Reflection.AssemblyProductAttribute("p2t2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("p2t2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
