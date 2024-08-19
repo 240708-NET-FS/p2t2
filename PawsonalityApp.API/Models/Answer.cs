@@ -1,9 +1,12 @@
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Pawsonality.API.Models;
 
 public class Answer 
 {
-    [key]
+    [Key]
     public int AnswerID {get; set;}
 
     public string AnswerText {get; set;}
