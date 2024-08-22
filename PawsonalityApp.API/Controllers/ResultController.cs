@@ -3,7 +3,7 @@ using Pawsonality.API.Models;
 
 
 [ApiController]
-[Route("api/questions")]
+[Route("api/results")]
 public class ResultController : ControllerBase
 {
     private string ResultService { get; set; }
