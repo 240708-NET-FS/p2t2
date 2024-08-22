@@ -1,3 +1,5 @@
+namespace Pawsonality.API.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using Pawsonality.API.Models;
 
