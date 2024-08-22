@@ -29,5 +29,11 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
             .HasOne(r => r.User)
             .WithMany()
             .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<Question>()
+            .HasIndex(q => q.QuestionText)
+            .IsUnique();
+
+        
     }
 }

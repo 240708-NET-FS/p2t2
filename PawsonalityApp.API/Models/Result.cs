@@ -7,7 +7,7 @@ namespace Pawsonality.API.Models;
 public class Result
 {
     [Key]
-    public int TestID { get; set; }
+    public int ResultID { get; set; }
 
     public DateTime TimeStamp { get; set; }
 
