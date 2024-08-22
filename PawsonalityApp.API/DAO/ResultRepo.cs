@@ -1,37 +1,60 @@
 
+using Microsoft.EntityFrameworkCore;
 using Pawsonality.API.Models;
 
 namespace Pawsonality.API.DAO;
 
 public class ResultRepo : IResultRepo
 {
-    public Task<Result> CreateResult()
+    private readonly AppDbContext _context;
+
+    public ResultRepo (AppDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<Result> DeleteAnswer()
+    public async Task<Result> CreateResult(Result result)
     {
-        throw new NotImplementedException();
+        _context.Result.Add(result);
+        await _context.SaveChangesAsync();
+
+        return result;
     }
 
-    public Task<Result> GetResultByID()
+    public async Task<Result?> DeleteResult(int ID)
     {
-        throw new NotImplementedException();
+        Result result = _context.Result.Find(ID)!;
+
+        _context.Result.Remove(result);
+        await _context.SaveChangesAsync();
+
+        return result;
     }
 
-    public Task<ICollection<Result>> GetResults()
+    public async Task<Result?> GetResultByID(int ID)
     {
-        throw new NotImplementedException();
+        return await _context.Result.Include(r => r.User).FirstOrDefaultAsync(r => r.ResultID == ID);
     }
 
-    public Task<ICollection<Result>> GetResultsByUserID()
+    public async Task<ICollection<Result>> GetResults()
     {
-        throw new NotImplementedException();
+        return await _context.Result.Include(r => r.User).ToListAsync();
     }
 
-    public Task<Result> UpdateAnswer()
+    public async Task<ICollection<Result>> GetResultsByUserID(string userID)
     {
-        throw new NotImplementedException();
+        return await _context.Result.Include(u => u.UserId == userID).ToListAsync();
+    }
+
+    public async Task<Result?> UpdateResult(int ID, Result updatedResult)
+    {
+        Result? result = await _context.Result.FirstOrDefaultAsync(r => r.ResultID == ID);
+
+        result!.ResultValue = updatedResult.ResultValue;
+
+        await _context.SaveChangesAsync();
+
+        return result;
+
     }
 }

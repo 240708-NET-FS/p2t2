@@ -1,32 +1,54 @@
 
+using Microsoft.EntityFrameworkCore;
 using Pawsonality.API.Models;
 
 namespace Pawsonality.API.DAO;
 
 public class QuestionRepo : IQuestionRepo
 {
-    public Task<Question> CreateQuenstion()
+    private readonly AppDbContext _context;
+
+    public QuestionRepo(AppDbContext context) 
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<Question> DeleteQuestion()
+    public async Task<Question> CreateQuenstion(Question question)
     {
-        throw new NotImplementedException();
+        _context.Question.Add(question);
+        await _context.SaveChangesAsync();
+
+        return question;
     }
 
-    public Task<Question> GetQuestionByID()
+    public async Task<Question> DeleteQuestion(int ID)
     {
-        throw new NotImplementedException();
+        Question question = _context.Question.Find(ID)!;
+
+        _context.Question.Remove(question);
+        await _context.SaveChangesAsync();
+
+        return question;
+
     }
 
-    public Task<ICollection<Question>> GetQuestions()
+    public async Task<Question?> GetQuestionByID(int ID)
     {
-        throw new NotImplementedException();
+        return await _context.Question.Include(a => a.Answer).FirstOrDefaultAsync(q => q.QuestionID == ID);
     }
 
-    public Task<Question> UpdateQuestion()
+    public async Task<ICollection<Question>> GetQuestions()
     {
-        throw new NotImplementedException();
+        return await _context.Question.Include(a => a.Answer).ToListAsync();
+    }
+
+    public async Task<Question?> UpdateQuestion(int ID, Question updatedQuestion)
+    {
+        Question question = _context.Question.Find(ID)!;
+
+        question.QuestionText = updatedQuestion.QuestionText;
+        await _context.SaveChangesAsync();
+
+        return question;
     }
 }

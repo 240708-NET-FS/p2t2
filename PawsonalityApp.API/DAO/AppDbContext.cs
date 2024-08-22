@@ -12,6 +12,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser> {
 
     public AppDbContext(DbContextOptions options) : base(options ){ }
 
+    public DbSet<Question> Question { get; set; }
     public DbSet<Answer> Answer { get; set; }
     public DbSet<Result> Result { get; set; }
 
