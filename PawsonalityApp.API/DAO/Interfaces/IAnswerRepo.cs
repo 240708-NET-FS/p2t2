@@ -5,11 +5,11 @@ namespace Pawsonality.API.DAO;
 
 public interface IAnswerRepo 
 {
-    public Task<Answer> CreateAnswer();
+    public Task<Answer> CreateAnswer(Answer answer);
     public Task<ICollection<Answer>> GetAnswers();
-    public Task<Answer> GetAnswerByID();
-    public Task<ICollection<Answer>> GetAnswersByQuestionID();
-    public Task<Answer> DeleteAnswer();
-    public Task<Answer> UpdateAnswer();
+    public Task<Answer?> GetAnswerByID(int ID);
+    public Task<ICollection<Answer>> GetAnswersByQuestionID(int questionID);
+    public Task<Answer?> DeleteAnswer(int ID);
+    public Task<Answer?> UpdateAnswer(int ID, Answer updatedAnswer);
 
 }

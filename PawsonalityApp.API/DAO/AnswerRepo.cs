@@ -1,36 +1,55 @@
 
+using Microsoft.EntityFrameworkCore;
 using Pawsonality.API.Models;
 
 namespace Pawsonality.API.DAO;
 
 public class AnswerRepo : IAnswerRepo
 {
-    public Task<Answer> CreateAnswer()
+    private readonly AppDbContext _context;
+
+    public AnswerRepo (AppDbContext context) 
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<Answer> DeleteAnswer()
+    public async Task<Answer> CreateAnswer(Answer answer)
     {
-        throw new NotImplementedException();
+        _context.Answer.Add(answer);
+        await _context.SaveChangesAsync();
+
+        return answer;
     }
 
-    public Task<Answer> GetAnswerByID()
+    public async Task<Answer?> DeleteAnswer(int ID)
     {
-        throw new NotImplementedException();
+        Answer? answer = await _context.Answer.FirstOrDefaultAsync(a => a.AnswerID == ID);
+        if(answer != null)
+        {
+            _context.Answer.Remove(answer);
+            await _context.SaveChangesAsync();
+        } 
+        
+
+        return answer;
     }
 
-    public Task<ICollection<Answer>> GetAnswers()
+    public async Task<Answer?> GetAnswerByID(int ID)
     {
-        throw new NotImplementedException();
+        return await _context.Answer.FirstOrDefaultAsync(a => a.AnswerID == ID);
     }
 
-    public Task<ICollection<Answer>> GetAnswersByQuestionID()
+    public async Task<ICollection<Answer>> GetAnswers()
     {
-        throw new NotImplementedException();
+        return await _context.Answer.ToListAsync();
     }
 
-    public Task<Answer> UpdateAnswer()
+    public async Task<ICollection<Answer>> GetAnswersByQuestionID(int questionID)
+    {
+        return await _context.Answer.Include(q => q.Question).Where(q => q.QuestionID == questionID).ToListAsync();
+    }
+
+    public Task<Answer?> UpdateAnswer(int ID, Answer updatedAnswer)
     {
         throw new NotImplementedException();
     }

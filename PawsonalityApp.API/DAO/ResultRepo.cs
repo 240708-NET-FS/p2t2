@@ -8,7 +8,7 @@ public class ResultRepo : IResultRepo
 {
     private readonly AppDbContext _context;
 
-    public ResultRepo (AppDbContext context)
+    public ResultRepo(AppDbContext context)
     {
         _context = context;
     }
@@ -23,10 +23,14 @@ public class ResultRepo : IResultRepo
 
     public async Task<Result?> DeleteResult(int ID)
     {
-        Result result = _context.Result.Find(ID)!;
+        Result? result = await _context.Result.FirstOrDefaultAsync(r => r.ResultID == ID);
 
-        _context.Result.Remove(result);
-        await _context.SaveChangesAsync();
+        if (result != null)
+        {
+            _context.Result.Remove(result);
+            await _context.SaveChangesAsync();
+        }
+
 
         return result;
     }
@@ -43,7 +47,7 @@ public class ResultRepo : IResultRepo
 
     public async Task<ICollection<Result>> GetResultsByUserID(string userID)
     {
-        return await _context.Result.Include(u => u.UserId == userID).ToListAsync();
+        return await _context.Result.Include(u => u.User).Where(u => u.UserId == userID).ToListAsync();
     }
 
     public async Task<Result?> UpdateResult(int ID, Result updatedResult)

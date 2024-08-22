@@ -8,7 +8,7 @@ public class QuestionRepo : IQuestionRepo
 {
     private readonly AppDbContext _context;
 
-    public QuestionRepo(AppDbContext context) 
+    public QuestionRepo(AppDbContext context)
     {
         _context = context;
     }
@@ -21,12 +21,16 @@ public class QuestionRepo : IQuestionRepo
         return question;
     }
 
-    public async Task<Question> DeleteQuestion(int ID)
+    public async Task<Question?> DeleteQuestion(int ID)
     {
-        Question question = _context.Question.Find(ID)!;
+        Question? question = await _context.Question.FirstOrDefaultAsync(q => q.QuestionID == ID)!;
 
-        _context.Question.Remove(question);
-        await _context.SaveChangesAsync();
+        if (question != null)
+        {
+            _context.Question.Remove(question);
+            await _context.SaveChangesAsync();
+        }
+
 
         return question;
 
