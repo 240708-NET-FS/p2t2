@@ -5,8 +5,8 @@ using Pawsonality.API.Models;
 
 public interface IQuestionService
 {
-    public Question GetById(int id);
-    public ICollection<Question> GetAll();
-    public Question Add(Question q);
-    public Question RemoveById(int id);
+    public Task<Question?> GetById(int id);
+    public Task<ICollection<Question>> GetAll();
+    public Task<Question> Add(Question q);
+    public Task<Question?> RemoveById(int id);
 }
