@@ -61,6 +61,6 @@ jobs:
         with:
           app-name: 'Pawsonality'
           slot-name: 'Production'
-          package: ${{env.DOTNET_ROOT}}\myapp
+          package: .
 
           
