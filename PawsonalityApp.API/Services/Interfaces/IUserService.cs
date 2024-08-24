@@ -11,7 +11,7 @@ public interface IUserService
         // Read
         Task<IdentityUser> GetUserByID(string userID);
 
-        public Task<SignInResult> LoginUser(IdentityUser loginDto);
+        public Task<SignInResult> LoginUser(IdentityUser login);
 
         public Task LogoutUser();
 

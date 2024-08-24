@@ -3,9 +3,9 @@ using Pawsonality.API.Models;
 
 namespace PawsonalityApp.API.Utility;
 
-public static class AnswerUtility 
+public static class AnswerUtility
 {
-    public static Answer AnswerDTOToAnswer (AnswerDTO answerDTO) 
+    public static Answer AnswerDTOToAnswer(AnswerDTO answerDTO)
     {
         return new Answer
         {
@@ -13,20 +13,28 @@ public static class AnswerUtility
             AnswerType = answerDTO.AnswerType
         };
     }
+}
 
-    public static Question QuestionDTOToQuestion (QuestionDTO questionDTO) 
+public static class QuestionUtility
+{
+    public static Question QuestionDTOToQuestion(QuestionDTO questionDTO)
     {
         return new Question
         {
-           QuestionText = questionDTO.QuestionText
+            QuestionText = questionDTO.QuestionText
         };
     }
 
-     public static Result ResultDTOToResult (ResultDTO resultDTO) 
+}
+
+public static class ResultUtility
+{
+    public static Result ResultDTOToResult(ResultDTO resultDTO)
     {
         return new Result
         {
-           ResultValue = resultDTO.ResultValue
+            ResultValue = resultDTO.ResultValue
         };
     }
 }
+
