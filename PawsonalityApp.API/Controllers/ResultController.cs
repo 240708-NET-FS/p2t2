@@ -1,7 +1,6 @@
 namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
 using PawsonalityApp.API.Exceptions;
@@ -11,7 +10,7 @@ using PawsonalityApp.API.Services;
 [Route("api/results")]
 public class ResultController : ControllerBase
 {
-    private readonly ResultService _resultService;
+    private readonly IResultService _resultService;
 
     public ResultController(ResultService resultService)
     {
