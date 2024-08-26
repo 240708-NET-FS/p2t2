@@ -28,7 +28,7 @@ public class ResultController : ControllerBase
         }
         catch(InvalidResultException)
         {
-            return NotFound("No results found. --test");
+            return NotFound("No results found. --test2");
         }
     }
 
@@ -84,6 +84,24 @@ public class ResultController : ControllerBase
         catch(InvalidResultException)
         {
             return NotFound($"Result with ID {id} not found.");
+        }
+    }
+
+    [HttpGet("user/{userid}")]
+    public async Task<IActionResult> GetByUserId(string userid)
+    {
+        try
+        {
+            ICollection<Result> results = await _resultService.GetResultsByUserID(userid);
+
+            if(results is null)
+                return NotFound($"No results for user with ID {userid} were found.");
+
+            return Ok(results);
+        }
+        catch(InvalidResultException ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
 }
