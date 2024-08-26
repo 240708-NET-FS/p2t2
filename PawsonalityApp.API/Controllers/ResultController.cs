@@ -12,7 +12,7 @@ public class ResultController : ControllerBase
 {
     private readonly IResultService _resultService;
 
-    public ResultController(ResultService resultService)
+    public ResultController(IResultService resultService)
     {
         _resultService = resultService;
     }
