@@ -28,7 +28,7 @@ public class ResultController : ControllerBase
         }
         catch(InvalidResultException ex)
         {
-            return NotFound("No results found.");
+            return NotFound("No results found. --test");
         }
     }
 
