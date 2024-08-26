@@ -20,12 +20,16 @@ public class ResultController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        ICollection<Result> results = await _resultService.GetResults();
+        try
+        {
+            ICollection<Result> results = await _resultService.GetResults();
 
-        if(results.IsNullOrEmpty())
+            return Ok(results);
+        }
+        catch(InvalidResultException ex)
+        {
             return NotFound("No results found.");
-
-        return Ok(results);
+        }
     }
 
     [HttpGet("{id}")]
@@ -34,7 +38,7 @@ public class ResultController : ControllerBase
         Result? r = await _resultService.GetResultByID(id);
 
         if(r is null)
-            return NotFound($"Response with ID {id} not found.");
+            return NotFound($"Response with ID {id} not found TEST.");
 
         return Ok(r);
     }
