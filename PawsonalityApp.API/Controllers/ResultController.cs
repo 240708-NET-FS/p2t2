@@ -26,7 +26,7 @@ public class ResultController : ControllerBase
 
             return Ok(results);
         }
-        catch(InvalidResultException ex)
+        catch(InvalidResultException)
         {
             return NotFound("No results found. --test");
         }
@@ -64,7 +64,7 @@ public class ResultController : ControllerBase
             return Ok(removed);
 
         }
-        catch(InvalidQuestionException ex)
+        catch(InvalidQuestionException)
         {
             return NotFound($"Result with ID {id} not found.");
         }
@@ -81,7 +81,7 @@ public class ResultController : ControllerBase
             return Ok(r);
 
         }
-        catch(InvalidResultException ex)
+        catch(InvalidResultException)
         {
             return NotFound($"Result with ID {id} not found.");
         }
