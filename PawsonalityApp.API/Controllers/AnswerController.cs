@@ -24,7 +24,7 @@ public class AnswerController : ControllerBase
 
         if (answers.IsNullOrEmpty())
         {
-            return NotFound("Not answer found.");
+            return NotFound("No answers found.");
         }
 
         return Ok(answers);
