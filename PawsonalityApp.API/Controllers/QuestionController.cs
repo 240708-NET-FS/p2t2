@@ -1,46 +1,102 @@
 namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
-
+using PawsonalityApp.API.Exceptions;
+using PawsonalityApp.API.Services;
 
 [ApiController]
 [Route("api/questions")]
 public class QuestionController : ControllerBase
 {
-    private string QuestionService { get; set; }
+    private readonly QuestionService _questionService;
+
+    public QuestionController(QuestionService questionService)
+    {
+        _questionService = questionService;
+    }
 
     [HttpGet]
-    public ICollection<Question> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        // return Ok(QuestionService.GetAll());
-        return null!;
+        try
+        {
+            ICollection<Question> questions = await _questionService.GetQuestions();
+
+            return Ok(questions.ToList());
+
+        }
+        catch (InvalidQuestionException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     [HttpGet("{id}")]
-    public ICollection<Question> GetAll(int id)
+    public async Task<IActionResult> GetQuestionByID(int id)
     {
-        // return Ok(QuestionService.GetById(id));
-        return null!;
+        try
+        {
+            Question question = await _questionService.GetQuestionByID(id);
+            return Ok(question);
+
+        }
+        catch (InvalidQuestionException e)
+        {
+            return NotFound(e.Message);
+        }
 
     }
 
     [HttpPost]
-    public ICollection<Question> Post([FromBody] Question question)
+    public async Task<IActionResult> CreateQuestion([FromBody] QuestionDTO question)
     {
-        // Question q = QuestionService.Add(question)
-        Response.StatusCode = 201;
-        // return q;
-        return null!;
+
+        try
+        {
+            Question newQuestion = await _questionService.CreateQuenstion(question);
+
+            return Ok(newQuestion);
+
+        }
+        catch (InvalidQuestionException e)
+        {
+            return NotFound(e.Message);
+        }
+
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionDTO question)
+    {
+
+        try
+        {
+            Question? updatedQuestion = await _questionService.UpdateQuestion(id, question);
+
+            return Ok(updatedQuestion);
+
+        }
+        catch (InvalidQuestionException e)
+        {
+            return NotFound(e.Message);
+        }
 
     }
 
     [HttpDelete("{id}")]
-    public ICollection<Question> Delete(int id)
+    public async Task<IActionResult> DeleteQuestion(int id)
     {
-        // Question q = QuestionService.Remove(id)
-        Response.StatusCode = 204;
-        // return q;
-        return null!;
+        try
+        {
+            Question? deleteQ = await _questionService.DeleteQuestion(id);
+
+            return Ok(deleteQ);
+        }
+        catch (InvalidQuestionException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 }
