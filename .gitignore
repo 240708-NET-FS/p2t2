@@ -1,3 +1,5 @@
+.DS_Store
+
 PawsonalityApp.API/obj
 PawsonalityApp.API/bin
 
@@ -5,3 +7,4 @@ PawsonalityApp.Tests/obj
 PawsonalityApp.Tests/bin
 
 PawsonalityApp.API/appsettings.json
+../.DS_Store
