@@ -41,7 +41,7 @@ public class AnswerRepo : IAnswerRepo
 
     public async Task<ICollection<Answer>> GetAnswers()
     {
-        return await _context.Answer.ToListAsync();
+        return await _context.Answer.Include(q => q.Question).ToListAsync();
     }
 
     public async Task<ICollection<Answer>> GetAnswersByQuestionID(int questionID)
