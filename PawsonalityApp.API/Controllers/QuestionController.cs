@@ -1,6 +1,7 @@
 namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
 using PawsonalityApp.API.Exceptions;
@@ -10,6 +11,7 @@ using PawsonalityApp.API.Services;
 [Route("api/questions")]
 public class QuestionController : ControllerBase
 {
+
     private readonly QuestionService _questionService;
 
     public QuestionController(QuestionService questionService)
@@ -17,9 +19,11 @@ public class QuestionController : ControllerBase
         _questionService = questionService;
     }
 
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
+
         try
         {
             ICollection<Question> questions = await _questionService.GetQuestions();
@@ -50,6 +54,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost]
+
     public async Task<IActionResult> CreateQuestion([FromBody] QuestionDTO question)
     {
 
@@ -98,5 +103,6 @@ public class QuestionController : ControllerBase
         {
             return NotFound(e.Message);
         }
+
     }
 }
