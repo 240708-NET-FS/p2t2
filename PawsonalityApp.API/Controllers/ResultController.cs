@@ -26,7 +26,7 @@ public class ResultController : ControllerBase
 
             return Ok(results);
         }
-        catch(InvalidResultException ex)
+        catch(InvalidResultException)
         {
             return NotFound("No results found. --test");
         }
@@ -38,7 +38,7 @@ public class ResultController : ControllerBase
         Result? r = await _resultService.GetResultByID(id);
 
         if(r is null)
-            return NotFound($"Response with ID {id} not found TEST.");
+            return NotFound($"Result with ID {id} not found.");
 
         return Ok(r);
     }
@@ -64,7 +64,24 @@ public class ResultController : ControllerBase
             return Ok(removed);
 
         }
-        catch(InvalidQuestionException ex)
+        catch(InvalidQuestionException)
+        {
+            return NotFound($"Result with ID {id} not found.");
+        }
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] ResultDTO resultDTO)
+    {
+
+        try
+        {
+            Result? r = await _resultService.UpdateResult(id, resultDTO);
+
+            return Ok(r);
+
+        }
+        catch(InvalidResultException)
         {
             return NotFound($"Result with ID {id} not found.");
         }
