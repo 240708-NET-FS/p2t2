@@ -34,7 +34,7 @@ public class AnswerServices : IAnswerService
         
         if(answer == null)
         {
-            throw new InvalidAnswerException("Answer is null.");
+            throw new InvalidAnswerException("Answer not found.");
         }
 
         return await _answerRepo.DeleteAnswer(ID);
@@ -51,6 +51,11 @@ public class AnswerServices : IAnswerService
         }
 
         return answer;
+    }
+
+    public async Task<ICollection<Answer>> GetAnswers()
+    {
+        return await _answerRepo.GetAnswers();
     }
 
     public async Task<ICollection<Answer>> GetAnswersByQuestionID(int questionID)
