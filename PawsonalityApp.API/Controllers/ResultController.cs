@@ -1,46 +1,69 @@
 namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
-
+using PawsonalityApp.API.Exceptions;
+using PawsonalityApp.API.Services;
 
 [ApiController]
 [Route("api/results")]
 public class ResultController : ControllerBase
 {
-    private string ResultService { get; set; }
+    private readonly ResultService _resultService;
+
+    public ResultController(ResultService resultService)
+    {
+        _resultService = resultService;
+    }
 
     [HttpGet]
-    public ICollection<Result> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        // return Ok(QuestionService.GetAll());
-        return null!;
+        ICollection<Result> results = await _resultService.GetResults();
+
+        if(results.IsNullOrEmpty())
+            return NotFound("No results found.");
+
+        return Ok(results);
     }
 
     [HttpGet("{id}")]
-    public ICollection<Result> GetAll(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        // return Ok(QuestionService.GetById(id));
-        return null!;
+        Result? r = await _resultService.GetResultByID(id);
 
+        if(r is null)
+            return NotFound($"Response with ID {id} not found.");
+
+        return Ok(r);
     }
 
     [HttpPost]
-    public ICollection<Result> Post([FromBody] Result result)
+    public async Task<IActionResult> Post([FromBody] ResultDTO resultDTO)
     {
-        // Question q = QuestionService.Add(question)
-        Response.StatusCode = 201;
-        // return q;
-        return null!;
+        Result? r = await _resultService.CreateResult(resultDTO);
 
+        if(r is null)
+            return StatusCode(StatusCodes.Status500InternalServerError, "Creation failed.");
+
+        return Created();
     }
 
     [HttpDelete("{id}")]
-    public ICollection<Result> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        // Question q = QuestionService.Remove(id)
-        Response.StatusCode = 204;
-        // return q;
-        return null!;
+
+        try
+        {
+            Result? removed = await _resultService.DeleteResult(id);
+            return Ok(removed);
+
+        }
+        catch(InvalidQuestionException ex)
+        {
+            return NotFound($"Result with ID {id} not found.");
+        }
     }
 }
