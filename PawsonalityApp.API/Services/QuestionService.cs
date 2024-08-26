@@ -59,7 +59,7 @@ public class QuestionService : IQuestionService
 
        if(questions.IsNullOrEmpty()) 
        {
-            throw new InvalidQuestionException("No questions found!!!!!.");
+            throw new InvalidQuestionException("No questions found.");
        }
 
        return questions.ToList();
