@@ -2,7 +2,6 @@ namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
 using PawsonalityApp.API.Exceptions;
 using PawsonalityApp.API.Services;

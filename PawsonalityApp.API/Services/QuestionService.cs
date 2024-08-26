@@ -1,4 +1,3 @@
-
 using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.DAO;
 using Pawsonality.API.Models;
@@ -8,9 +7,9 @@ namespace PawsonalityApp.API.Services;
 
 public class QuestionService : IQuestionService
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly IQuestionRepo _questionRepo;
 
-    public QuestionService (QuestionRepo questionRepo) 
+    public QuestionService (IQuestionRepo questionRepo) 
     {
         _questionRepo = questionRepo;
     }

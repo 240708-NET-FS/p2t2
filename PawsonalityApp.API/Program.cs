@@ -25,8 +25,8 @@ builder.Services.AddSwaggerGen(options => {
 //Here we will register our dependencies (Services and DbContext, etc) so that we can satisfy our constructors
 //and inject dependecies where needed
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IAnswerService, AnswerServices>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IResultService, ResultService>();
 builder.Services.AddScoped<IQuestionRepo, QuestionRepo>();
 builder.Services.AddScoped<IResultRepo, ResultRepo>();
