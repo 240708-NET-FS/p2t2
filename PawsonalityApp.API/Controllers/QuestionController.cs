@@ -1,6 +1,7 @@
 namespace Pawsonality.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Pawsonality.API.Interfaces;
 using Pawsonality.API.Models;
 
 
@@ -8,39 +9,39 @@ using Pawsonality.API.Models;
 [Route("api/questions")]
 public class QuestionController : ControllerBase
 {
-    private string QuestionService { get; set; }
+    private IQuestionService QuestionService { get; set; }
 
     [HttpGet]
-    public ICollection<Question> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        // return Ok(QuestionService.GetAll());
-        return null!;
+        ICollection<Question> questions = await QuestionService.GetAll();
+
+        return Ok(questions);
     }
 
     [HttpGet("{id}")]
-    public ICollection<Question> GetAll(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        // return Ok(QuestionService.GetById(id));
-        return null!;
+        Question? q = await QuestionService.GetById(id);
 
+        return Ok(q);
     }
 
     [HttpPost]
-    public ICollection<Question> Post([FromBody] Question question)
+    public async Task<IActionResult> Post([FromBody] Question question)
     {
-        // Question q = QuestionService.Add(question)
-        Response.StatusCode = 201;
-        // return q;
-        return null!;
+        Question q = await QuestionService.Add(question);
 
+        return Created();
     }
 
     [HttpDelete("{id}")]
-    public ICollection<Question> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        // Question q = QuestionService.Remove(id)
+        Question removed = await QuestionService.RemoveById(id);
+
         Response.StatusCode = 204;
-        // return q;
-        return null!;
+
+        return null;
     }
 }
