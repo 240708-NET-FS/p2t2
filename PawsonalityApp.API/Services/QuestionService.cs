@@ -8,9 +8,9 @@ namespace PawsonalityApp.API.Services;
 
 public class QuestionService : IQuestionService
 {
-    private readonly IQuestionRepo _questionRepo;
+    private readonly QuestionRepo _questionRepo;
 
-    public QuestionService (IQuestionRepo questionRepo) 
+    public QuestionService (QuestionRepo questionRepo) 
     {
         _questionRepo = questionRepo;
     }
@@ -59,7 +59,7 @@ public class QuestionService : IQuestionService
 
        if(questions.IsNullOrEmpty()) 
        {
-            throw new InvalidQuestionException("Error when fetching questions");
+            throw new InvalidQuestionException("No questions found.");
        }
 
        return questions.ToList();
@@ -77,6 +77,5 @@ public class QuestionService : IQuestionService
         }
 
         return updatedQ;
-
     }
 }
