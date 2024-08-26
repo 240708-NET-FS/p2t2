@@ -20,12 +20,17 @@ public class ResultController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        ICollection<Result> results = await _resultService.GetResults();
 
-        if(results.IsNullOrEmpty())
+        try
+        {
+            ICollection<Result> results = await _resultService.GetResults();
+
+            return Ok(results);
+        }
+        catch(InvalidResultException ex)
+        {
             return NotFound("No results found.");
-
-        return Ok(results);
+        }
     }
 
     [HttpGet("{id}")]
