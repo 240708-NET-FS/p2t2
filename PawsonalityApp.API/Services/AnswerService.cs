@@ -8,9 +8,9 @@ namespace PawsonalityApp.API.Services;
 
 public class AnswerServices : IAnswerService
 {
-    private readonly AnswerRepo _answerRepo;
+    private readonly IAnswerRepo _answerRepo;
 
-    public AnswerServices (AnswerRepo answerRepo) 
+    public AnswerServices (IAnswerRepo answerRepo) 
     {   
         _answerRepo = answerRepo;
     }

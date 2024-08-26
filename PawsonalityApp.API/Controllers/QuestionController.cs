@@ -12,9 +12,9 @@ using PawsonalityApp.API.Services;
 public class QuestionController : ControllerBase
 {
 
-    private readonly QuestionService _questionService;
+    private readonly IQuestionService _questionService;
 
-    public QuestionController(QuestionService questionService)
+    public QuestionController (IQuestionService questionService)
     {
         _questionService = questionService;
     }

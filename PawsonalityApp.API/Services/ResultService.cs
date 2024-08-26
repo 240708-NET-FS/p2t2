@@ -7,9 +7,9 @@ namespace PawsonalityApp.API.Services;
 
 public class ResultService : IResultService
 {
-    private readonly ResultRepo _resultRepo;
+    private readonly IResultRepo _resultRepo;
 
-    public ResultService(ResultRepo resultRepo)
+    public ResultService(IResultRepo resultRepo)
     {
         _resultRepo = resultRepo;
     }

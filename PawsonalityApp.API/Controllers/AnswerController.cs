@@ -10,9 +10,9 @@ using PawsonalityApp.API.Services;
 [Route("api/answers")]
 public class AnswerController : ControllerBase
 {
-    private readonly AnswerServices _answerServices;
+    private readonly IAnswerService _answerServices;
 
-    public AnswerController(AnswerServices answerServices)
+    public AnswerController(IAnswerService answerServices)
     {
         _answerServices = answerServices;
     }
