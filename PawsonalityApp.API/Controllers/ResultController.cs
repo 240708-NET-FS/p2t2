@@ -52,7 +52,7 @@ public class ResultController : ControllerBase
         if(r is null)
             return StatusCode(StatusCodes.Status500InternalServerError, "Creation failed.");
 
-        return Created();
+        return Ok(r);
     }
 
     [HttpDelete("{id}"), Authorize]

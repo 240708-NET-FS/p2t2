@@ -33,6 +33,8 @@ public static class ResultUtility
     {
         return new Result
         {
+            TimeStamp = DateTime.Now,
+            UserId = resultDTO.UserId!,
             ResultValue = resultDTO.ResultValue
         };
     }

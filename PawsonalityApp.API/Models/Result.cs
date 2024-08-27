@@ -11,10 +11,10 @@ public class Result
 
     public DateTime TimeStamp { get; set; }
 
-    public string ResultValue { get; set; }
+    public string? ResultValue { get; set; }
 
     // Foreign Key for ApplicationUser
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
 
     // One-to-Many Relationship between User and Result
