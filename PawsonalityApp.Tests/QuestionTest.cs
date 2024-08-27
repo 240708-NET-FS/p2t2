@@ -54,7 +54,7 @@ public class QuestionTest
 
         Assert.Equal(question.QuestionID, deletedQuestion.QuestionID);
     }
-    
+
     [Fact]
     public async void GetQuestionByID_ShouldSuccesfullyGetQuestion()
     {
@@ -126,16 +126,20 @@ public class QuestionTest
         Assert.Equal(question.QuestionID, updatedQuestion.QuestionID);
     }
 
-    [Fact]
-    public async void CreateQuestion_ShouldThrowInvalidQuestionException()
-    {
-        // Currently cannot test for exception because QuestionDTOToQuestion is a static method
-    }
 
     [Fact]
     public async void DeleteQuestion_ShouldThrowInvalidQuestionException()
     {
-        // Currently cannot test for exception because QuestionDTOToQuestion is a static method
+        //Arrange
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
+
+        mockQuestionRepo.Setup(q => q.DeleteQuestion(It.IsAny<int>())).ReturnsAsync((Question)null);
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null);
+
+        //Act and Assert
+        await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.DeleteQuestion(1));      
+
     }
 
     [Fact]
@@ -143,7 +147,7 @@ public class QuestionTest
     {
         Mock<IQuestionRepo> mockQuestionRepo = new();
         QuestionService questionService = new(mockQuestionRepo.Object);
-        
+
         mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null);
 
         await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.GetQuestionByID(1));
@@ -154,7 +158,7 @@ public class QuestionTest
     {
         Mock<IQuestionRepo> mockQuestionRepo = new();
         QuestionService questionService = new(mockQuestionRepo.Object);
-        
+
         mockQuestionRepo.Setup(q => q.GetQuestions()).ReturnsAsync(new List<Question>());
 
         await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.GetQuestions());

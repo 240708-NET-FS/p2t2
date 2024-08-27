@@ -18,11 +18,6 @@ public class QuestionService : IQuestionService
     {   
         Question q = Utility.QuestionUtility.QuestionDTOToQuestion(question);
 
-        if(q == null) 
-        {
-            throw new InvalidQuestionException("Error when creating question.");
-        }
-
         return await _questionRepo.CreateQuenstion(q);
     }
 
