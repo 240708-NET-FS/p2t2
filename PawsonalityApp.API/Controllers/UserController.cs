@@ -3,12 +3,11 @@ namespace Pawsonality.API.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Pawsonality.API.Models;
 using PawsonalityApp.API.Exceptions;
 using PawsonalityApp.API.Services;
 
 [ApiController]
-[Route("api/answers")]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userServices;
