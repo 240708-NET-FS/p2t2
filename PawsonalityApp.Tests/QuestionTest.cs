@@ -134,8 +134,8 @@ public class QuestionTest
         Mock<IQuestionRepo> mockQuestionRepo = new();
         QuestionService questionService = new(mockQuestionRepo.Object);
 
-        mockQuestionRepo.Setup(q => q.DeleteQuestion(It.IsAny<int>())).ReturnsAsync((Question)null);
-        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null);
+        mockQuestionRepo.Setup(q => q.DeleteQuestion(It.IsAny<int>())).ReturnsAsync((Question)null!);
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null!);
 
         //Act and Assert
         await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.DeleteQuestion(1));      
@@ -148,7 +148,7 @@ public class QuestionTest
         Mock<IQuestionRepo> mockQuestionRepo = new();
         QuestionService questionService = new(mockQuestionRepo.Object);
 
-        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null);
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null!);
 
         await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.GetQuestionByID(1));
     }
