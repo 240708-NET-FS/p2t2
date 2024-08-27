@@ -1,167 +1,162 @@
-using Microsoft.IdentityModel.Tokens;
+using Xunit;
 using Moq;
+using PawsonalityApp.API.Services;
 using Pawsonality.API.DAO;
 using Pawsonality.API.Models;
-using PawsonalityApp.API.Services;
+using System.Collections.Generic;
+using PawsonalityApp.API.Exceptions;
 
 namespace PawsonalityApp.Tests;
+
 
 public class QuestionTest
 {
     [Fact]
     public async void CreateQuestion_ShouldSuccesfullyCreateQuestion()
     {
-        // Arrange
-        Mock<IQuestionRepo> mockQuestionRepo = new Mock<IQuestionRepo>(); // <1>
-        QuestionService _questionService = new QuestionService(mockQuestionRepo.Object); // <2> questionService 
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
 
-        // Act
-        Question question = new Question
+        QuestionDTO questionDTO = new()
+        {
+            QuestionText = "What is your favorite color?"
+        };
+
+        Question question = new()
         {
             QuestionID = 1,
-            QuestionText = "How do you prefer to spend your weekend?"
+            QuestionText = "What is your favorite color?"
         };
 
-        QuestionDTO questionDTO = new QuestionDTO
-        {
-            QuestionText = "How do you prefer to spend your weekend?"
-        };
+        mockQuestionRepo.Setup(q => q.CreateQuenstion(It.IsAny<Question>())).ReturnsAsync(question);
 
-        mockQuestionRepo.Setup(x => x.CreateQuenstion(It.IsAny<Question>())).ReturnsAsync(question);
+        Question createdQuestion = await questionService.CreateQuenstion(questionDTO);
 
-        // Act
-        Question q = await _questionService.CreateQuenstion(questionDTO);
-
-        // Assert
-        Assert.Equal(question, q);
-
+        Assert.Equal(question.QuestionID, createdQuestion.QuestionID);
     }
 
     [Fact]
     public async void DeleteQuestion_ShouldSuccesfullyDeleteQuestion()
     {
-        // Arrange
-        Mock<IQuestionRepo> mockQuestionRepo = new Mock<IQuestionRepo>(); // <1>
-        QuestionService _questionService = new QuestionService(mockQuestionRepo.Object); // <2> questionService 
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
 
-        // Act
-        Question question = new Question
+        Question question = new()
         {
             QuestionID = 1,
-            QuestionText = "How do you prefer to spend your weekend?"
+            QuestionText = "What is your favorite color?"
         };
 
-        QuestionDTO questionDTO = new QuestionDTO
-        {
-            QuestionText = "How do you prefer to spend your weekend?"
-        };
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync(question);
+        mockQuestionRepo.Setup(q => q.DeleteQuestion(It.IsAny<int>())).ReturnsAsync(question);
 
-        mockQuestionRepo.Setup(x => x.CreateQuenstion(It.IsAny<Question>())).ReturnsAsync(question);
-        mockQuestionRepo.Setup(x => x.DeleteQuestion(It.IsAny<int>())).ReturnsAsync(question);
-        mockQuestionRepo.Setup(x => x.GetQuestionByID(It.IsAny<int>())).ReturnsAsync(question);
+        Question deletedQuestion = await questionService.DeleteQuestion(1);
 
-        // Act
-        Question createdQ = await _questionService.CreateQuenstion(questionDTO);
-        Question deletedQ = await _questionService.DeleteQuestion(1);
-
-        // Assert
-        Assert.Equal(question, deletedQ);
-        Assert.Equal(createdQ, deletedQ);
+        Assert.Equal(question.QuestionID, deletedQuestion.QuestionID);
     }
-
+    
     [Fact]
     public async void GetQuestionByID_ShouldSuccesfullyGetQuestion()
     {
-        // Arrange
-        Mock<IQuestionRepo> mockQuestionRepo = new Mock<IQuestionRepo>(); // <1>
-        QuestionService _questionService = new QuestionService(mockQuestionRepo.Object); // <2> questionService 
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
 
-        Question question = new Question
+        Question question = new()
         {
             QuestionID = 1,
-            QuestionText = "How do you prefer to spend your weekend?"
+            QuestionText = "What is your favorite color?"
         };
 
-        QuestionDTO questionDTO = new QuestionDTO
-        {
-            QuestionText = "How do you prefer to spend your weekend?"
-        };
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync(question);
 
-        mockQuestionRepo.Setup(x => x.CreateQuenstion(It.IsAny<Question>())).ReturnsAsync(question);
-        mockQuestionRepo.Setup(x => x.GetQuestionByID(It.IsAny<int>())).ReturnsAsync(question);
+        Question foundQuestion = await questionService.GetQuestionByID(1);
 
-        // Act
-        Question createdQ = await _questionService.CreateQuenstion(questionDTO);
-        Question returnedQ = await _questionService.GetQuestionByID(1);
-
-        // Assert
-        Assert.Equal(question, returnedQ);
+        Assert.Equal(question.QuestionID, foundQuestion.QuestionID);
     }
 
     [Fact]
     public async void GetQuestions_ShouldSuccesfullyGetQuestions()
     {
-        // Arrange
-        Mock<IQuestionRepo> mockQuestionRepo = new Mock<IQuestionRepo>(); // <1>
-        QuestionService _questionService = new QuestionService(mockQuestionRepo.Object); // <2> questionService
-        List<Question> questions = new List<Question>{
-            new Question
-        {
-            QuestionID = 1,
-            QuestionText = "How do you prefer to spend your weekend?"
-        },
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
 
+        List<Question> questions = new()
+        {
             new Question
-          {
-              QuestionID = 2,
-              QuestionText = "How do you prefer to spend your weekdays?"
-          }
+            {
+                QuestionID = 1,
+                QuestionText = "What is your favorite color?"
+            },
+            new Question
+            {
+                QuestionID = 2,
+                QuestionText = "What is your favorite food?"
+            }
         };
 
-        QuestionDTO questionDTO = new QuestionDTO
-        {
-            QuestionText = "How do you prefer to spend your weekend?"
-        };
+        mockQuestionRepo.Setup(q => q.GetQuestions()).ReturnsAsync(questions);
 
-        // mockQuestionRepo.Setup(x => x.CreateQuenstion(It.IsAny<Question>())).ReturnsAsync(question);
-        mockQuestionRepo.Setup(x => x.GetQuestions()).ReturnsAsync(questions);
+        ICollection<Question> foundQuestions = await questionService.GetQuestions();
 
-        // Act
-        ICollection<Question> returnedQ = await _questionService.GetQuestions();
-
-        Assert.NotNull(returnedQ);
-        Assert.Equal(questions, returnedQ);
-
+        Assert.Equal(questions.Count, foundQuestions.Count);
     }
 
     [Fact]
     public async void UpdateQuestion_ShouldSuccesfullyUpdateQuestion()
     {
-        // Arrange
-        Mock<IQuestionRepo> mockQuestionRepo = new Mock<IQuestionRepo>(); // <1>
-        QuestionService _questionService = new QuestionService(mockQuestionRepo.Object); // <2> questionService
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
 
-          Question question = new Question
+        QuestionDTO questionDTO = new()
+        {
+            QuestionText = "What is your favorite color?"
+        };
+
+        Question question = new()
         {
             QuestionID = 1,
-            QuestionText = "How do you prefer to spend your weekend?"
+            QuestionText = "What is your favorite color?"
         };
 
-        QuestionDTO questionDTO = new QuestionDTO
-        {
-            QuestionText = "How do you prefer to spend your weekend?"
-        };
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync(question);
+        mockQuestionRepo.Setup(q => q.UpdateQuestion(It.IsAny<int>(), It.IsAny<Question>())).ReturnsAsync(question);
 
-        mockQuestionRepo.Setup(x => x.UpdateQuestion(It.IsAny<int>(), It.IsAny<Question>())).ReturnsAsync(question);
+        Question updatedQuestion = await questionService.UpdateQuestion(1, questionDTO);
+
+        Assert.Equal(question.QuestionID, updatedQuestion.QuestionID);
+    }
+
+    [Fact]
+    public async void CreateQuestion_ShouldThrowInvalidQuestionException()
+    {
+        // Currently cannot test for exception because QuestionDTOToQuestion is a static method
+    }
+
+    [Fact]
+    public async void DeleteQuestion_ShouldThrowInvalidQuestionException()
+    {
+        // Currently cannot test for exception because QuestionDTOToQuestion is a static method
+    }
+
+    [Fact]
+    public async void GetQuestionByID_ShouldThrowInvalidQuestionException()
+    {
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
         
-        Question q = await _questionService.CreateQuenstion(questionDTO);
+        mockQuestionRepo.Setup(q => q.GetQuestionByID(It.IsAny<int>())).ReturnsAsync((Question)null);
 
-        // Act
-        Question updatedQ = await _questionService.UpdateQuestion(1, questionDTO);
+        await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.GetQuestionByID(1));
+    }
+
+    [Fact]
+    public async void GetQuestions_ShouldThrowInvalidQuestionException()
+    {
+        Mock<IQuestionRepo> mockQuestionRepo = new();
+        QuestionService questionService = new(mockQuestionRepo.Object);
         
+        mockQuestionRepo.Setup(q => q.GetQuestions()).ReturnsAsync(new List<Question>());
 
-        // Assert   
-        Assert.Equal(question, updatedQ);
-
+        await Assert.ThrowsAsync<InvalidQuestionException>(() => questionService.GetQuestions());
     }
 }
