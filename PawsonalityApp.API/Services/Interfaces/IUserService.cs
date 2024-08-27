@@ -9,6 +9,7 @@ public interface IUserService
 
     // Read
     Task<IdentityUser> GetUserByID(string userID);
+    Task<IdentityUser> GetUserByUsername(string username);
 
     public Task<SignInResult> LoginUser(string username, string password);
 

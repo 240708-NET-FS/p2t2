@@ -52,6 +52,18 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task<IdentityUser> GetUserByUsername(string username)
+    {
+        IdentityUser? user = await _userManager.FindByNameAsync(username);
+
+        if(user == null)
+        {
+            throw new InvalidUserException($"User with username {username} does not exist.");
+        }
+
+        return user;
+    }
+
     public async Task<SignInResult> LoginUser(string username, string password)
     {
         return await _signInManager.PasswordSignInAsync(username, password, false, false);
