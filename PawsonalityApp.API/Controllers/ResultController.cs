@@ -1,5 +1,6 @@
 namespace Pawsonality.API.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Pawsonality.API.Models;
@@ -17,7 +18,7 @@ public class ResultController : ControllerBase
         _resultService = resultService;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<IActionResult> GetAll()
     {
         try
@@ -32,7 +33,7 @@ public class ResultController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}"), Authorize]
     public async Task<IActionResult> GetById(int id)
     {
         Result? r = await _resultService.GetResultByID(id);
@@ -43,7 +44,7 @@ public class ResultController : ControllerBase
         return Ok(r);
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> Post([FromBody] ResultDTO resultDTO)
     {
         Result? r = await _resultService.CreateResult(resultDTO);
@@ -54,7 +55,7 @@ public class ResultController : ControllerBase
         return Created();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize]
     public async Task<IActionResult> Delete(int id)
     {
 
@@ -70,7 +71,7 @@ public class ResultController : ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize]
     public async Task<IActionResult> Update(int id, [FromBody] ResultDTO resultDTO)
     {
 
@@ -87,7 +88,7 @@ public class ResultController : ControllerBase
         }
     }
 
-    [HttpGet("user/{userid}")]
+    [HttpGet("user/{userid}"), Authorize]
     public async Task<IActionResult> GetByUserId(string userid)
     {
         try
