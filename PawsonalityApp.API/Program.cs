@@ -70,14 +70,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
 
 //CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS
 app.UseCors("CORS"); //<-USE CORS with your policy name
 //CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS 
-
-app.UseHttpsRedirection();
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
@@ -86,6 +83,3 @@ app.MapControllers();
 app.MapIdentityApi<IdentityUser>();
 
 app.Run();
-
-app.Run();
-
