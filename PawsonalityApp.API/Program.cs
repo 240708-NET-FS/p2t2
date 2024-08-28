@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CORS", policy =>
     {
-        policy.AllowAnyOrigin()  // Allow all origins (for development, specify exact origins for production)
+        policy.WithOrigins("https://purple-desert-0b0e8ba1e.5.azurestaticapps.net/")  // Allow all origins (for development, specify exact origins for production)
               .AllowAnyMethod()  // Allow any HTTP method
               .AllowAnyHeader(); // Allow any header
     });
