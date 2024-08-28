@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CORS", policy =>
     {
-        policy.WithOrigins("https://purple-desert-0b0e8ba1e.5.azurestaticapps.net", "https://purple-desert-0b0e8ba1e.5.azurestaticapps.net/login")  // Allow specific origin
+        policy.WithOrigins("https://purple-desert-0b0e8ba1e.5.azurestaticapps.net", "http://localhost:5173")  // Allow specific origin
               .AllowAnyMethod()  // Allow any HTTP method
               .AllowAnyHeader(); // Allow any header
     });
