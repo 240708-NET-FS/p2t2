@@ -8,7 +8,6 @@ using Swashbuckle.AspNetCore.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options => {
@@ -22,8 +21,7 @@ builder.Services.AddSwaggerGen(options => {
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-//Here we will register our dependencies (Services and DbContext, etc) so that we can satisfy our constructors
-//and inject dependecies where needed
+// Register dependencies (Services and DbContext, etc.)
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAnswerService, AnswerServices>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
@@ -32,11 +30,10 @@ builder.Services.AddScoped<IQuestionRepo, QuestionRepo>();
 builder.Services.AddScoped<IResultRepo, ResultRepo>();
 builder.Services.AddScoped<IAnswerRepo, AnswerRepo>();
 
-
 builder.Services.AddControllers().AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    });
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -50,14 +47,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CORS", policy =>
     {
-        policy.AllowAnyOrigin()  // Allow all origins (for development, specify exact origins for production)
+        policy.WithOrigins("https://purple-desert-0b0e8ba1e.5.azurestaticapps.net")  // Allow specific origin
               .AllowAnyMethod()  // Allow any HTTP method
               .AllowAnyHeader(); // Allow any header
     });
 });
-
-//CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS  
-     
 
 builder.Services.AddAuthorization();
 
@@ -70,14 +64,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-//CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS
-app.UseCors("CORS"); //<-USE CORS with your policy name
-//CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS CORS 
-
 app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+// Apply CORS policy before authorization
+app.UseCors("CORS");
 
 app.UseAuthorization();
 
@@ -86,6 +76,3 @@ app.MapControllers();
 app.MapIdentityApi<IdentityUser>();
 
 app.Run();
-
-app.Run();
-
